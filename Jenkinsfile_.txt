@@ -1,0 +1,28 @@
+pipeline {
+    agent any
+    
+    stages {
+        stage('Pulling from git...'){
+            steps{
+               git branch : 'main',
+                url : 'https://github.com/svdwi/DevOps_Project'
+            }
+        }
+        
+        stage('Testing maven...'){
+            steps {
+                sh """mvn -versinon"""
+            }
+        }
+        
+        stage('Show system date........'){
+            steps{
+               script {
+                    DATE_TAG = java.time.LocalDate.now()
+                    DATETIME_TAG = java.time.LocalDateTime.now()
+                }
+                sh "echo ${DATETIME_TAG}"
+            }
+        } 
+   }
+}
