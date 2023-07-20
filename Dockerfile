@@ -1,4 +1,4 @@
 FROM openjdk:8
 EXPOSE 8089
-ADD /target/achat.jar  achat.jar
-ENTRYPOINT ["java", "-jar", "achat.jar"]
+ADD /target/Exam.jar  Exam.jar
+ENTRYPOINT ["java", "-jar", "Exam.jar"]
