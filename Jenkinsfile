@@ -24,6 +24,11 @@ pipeline {
                 sh 'mvn install -DskipTests=true'
             }
         }
+        stage('Deploy') {
+            steps {
+                        sh 'mvn deploy -DskipTests'
+                  }
+            }
         // stage('Deploy') {
         //     steps {
         //         sh 'docker-compose up -d'
@@ -67,23 +72,11 @@ pipeline {
                     }
 
 
-        stage("SonarQube Analysis") {
-            environment {
-                scannerHome = tool "${SONARSCANNER}"
-            }
+         stage('SonarQube analysis') {
             steps {
-                withSonarQubeEnv("${SONARSERVER}"){
-                    sh '''${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=devOPS \
-                    -Dsonar.projectName=devOPS \
-                    -Dsonar.projectVersion=1.0 \
-                    -Dsonar.sources=src/ \
-                    -Dsonar.java.binaries=target/classes \
-                    -Dsonar.junit.reportsPath=target/surefile-reports/ \
-                    -Dsonar.jacoco.reportPaths=target/jacoco.exec \
-                    -Dsonar.java.checkstyle.reportPaths=target/checkstyle-result.xml'''
-                }
+                        sh 'mvn  sonar:sonar -Dsonar.login=admin -Dsonar.password=admin123 -Dsonar.projectKey=Devops'
+                  }
             }
-        }
         stage('Running the unit test...') {
             steps {
                 sh 'mvn test'
